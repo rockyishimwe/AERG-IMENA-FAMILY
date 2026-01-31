@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imena Paper Pop - Ultimate Edition</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #78350f 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Blobs */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            mix-blend-mode: multiply;
+        }
+
+        .blob-1 {
+            top: 0;
+            left: 0;
+            width: 384px;
+            height: 384px;
+            background: #f59e0b;
+            animation: blob 7s infinite;
+        }
+
+        .blob-2 {
+            top: 0;
+            right: 0;
+            width: 384px;
+            height: 384px;
+            background: #eab308;
+            animation: blob 7s infinite;
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            bottom: 0;
+            left: 50%;
+            width: 384px;
+            height: 384px;
+            background: #f97316;
+            animation: blob 7s infinite;
+            animation-delay: 4s;
+        }
+
+        @keyframes blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(20px, -50px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.9); }
+            75% { transform: translate(50px, 50px) scale(1.05); }
+        }
+
+        /* Grain Texture */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.3;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        /* Header Styles */
+        .hero-header {
+            text:center;
+            margin-bottom: 4rem;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo-glow {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow-effect {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+
+        .logo-circle {
+            position: relative;
+            width: 128px;
+            height: 128px;
+            background: linear-gradient(135deg, #fbbf24, #eab308, #f97316);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(251, 191, 36, 0.5);
+            border: 4px solid #fcd34d;
+            overflow: hidden;
+        }
+
+        .logo-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: #0f172a;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ping-dot {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 32px;
+            height: 32px;
+            background: #facc15;
+            border-radius: 50%;
+            animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        .accent-dot-1 {
+            position: absolute;
+            bottom: -8px;
+            left: -8px;
+            width: 24px;
+            height: 24px;
+            background: #fbbf24;
+            border-radius: 50%;
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.05);
+            }
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            background: linear-gradient(90deg, #fef3c7, #fde047, #fef3c7);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .divider-line {
+            height: 1px;
+            width: 64px;
+            background: linear-gradient(to right, transparent, #fbbf24);
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #fcd34d;
+        }
+
+        .sparkle-icon {
+            width: 20px;
+            height: 20px;
+            color: #fbbf24;
+            animation: spin-slow 20s linear infinite;
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .description {
+            max-width: 48rem;
+            margin: 0 auto;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        /* Template Selector */
+        .template-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .template-btn {
+            position: relative;
+            padding: 1.25rem 2.5rem;
+            border-radius: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            overflow: hidden;
+        }
+
+        .template-btn.active {
+            background: linear-gradient(to right, #f59e0b, #ea580c);
+            color: #0f172a;
+            box-shadow: 0 20px 60px rgba(251, 191, 36, 0.5);
+            transform: scale(1.05);
+        }
+
+        .template-btn.inactive {
+            background: rgba(30, 41, 59, 0.5);
+            color: #fcd34d;
+            border: 2px solid #334155;
+        }
+
+        .template-btn.inactive:hover {
+            background: rgba(51, 65, 85, 0.5);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Card */
+        .form-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #fbbf24, #eab308, #fbbf24);
+            background-size: 200% auto;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        .form-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fcd34d, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .form-title::before {
+            content: '';
+            width: 8px;
+            height: 48px;
+            background: linear-gradient(to bottom, #fbbf24, #f97316);
+            border-radius: 999px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #fbbf24;
+            margin-bottom: 0.75rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid #334155;
+            border-radius: 0.75rem;
+            color: #fef3c7;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #64748b;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #f59e0b, #eab308, #f59e0b);
+            background-size: 200% auto;
+            color: #0f172a;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5);
+            transform: translateY(-2px);
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        .btn-secondary {
+            background: rgba(51, 65, 85, 0.5);
+            color: #fcd34d;
+            border: 2px solid #475569;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(71, 85, 105, 0.5);
+            border-color: rgba(251, 191, 36, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Preview Card */
+        .preview-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            position: sticky;
+            top: 1rem;
+        }
+
+        .preview-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.875rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(to right, #fcd34d, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-container {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        /* Invitation Preview - Dark Theme */
+        .invitation-dark {
+            background: #020617;
+            padding: 3rem;
+            min-height: 700px;
+            position: relative;
+        }
+
+        .invitation-border {
+            position: absolute;
+            inset: 1.5rem;
+            border: 2px solid rgba(251, 191, 36, 0.5);
+            border-radius: 0.5rem;
+        }
+
+        .invitation-border-inner {
+            position: absolute;
+            inset: 0.5rem;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .corner-ornament {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-color: #fbbf24;
+        }
+
+        .corner-tl {
+            top: 1rem;
+            left: 1rem;
+            border-top: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .corner-tr {
+            top: 1rem;
+            right: 1rem;
+            border-top: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .corner-bl {
+            bottom: 1rem;
+            left: 1rem;
+            border-bottom: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .corner-br {
+            bottom: 1rem;
+            right: 1rem;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .diamond-ornament {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            color: #fbbf24;
+        }
+
+        .diamond-top {
+            top: 0;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .diamond-bottom {
+            bottom: 0;
+            transform: translateX(-50%) translateY(50%);
+        }
+
+        .invitation-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .invitation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .invitation-logo {
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(135deg, #fbbf24, #eab308, #f97316);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5);
+            border: 3px solid #fcd34d;
+            position: relative;
+        }
+
+        .invitation-logo-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .invitation-logo-ping {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 24px;
+            height: 24px;
+            background: #facc15;
+            border-radius: 50%;
+            animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        .invitation-subfamily {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            letter-spacing: 0.3em;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+        }
+
+        .invitation-label-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .label-line {
+            height: 1px;
+            width: 48px;
+        }
+
+        .label-line-left {
+            background: linear-gradient(to right, transparent, #f59e0b);
+        }
+
+        .label-line-right {
+            background: linear-gradient(to left, transparent, #f59e0b);
+        }
+
+        .invitation-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(251, 191, 36, 0.7);
+            font-weight: 600;
+        }
+
+        .invitation-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            background: linear-gradient(to right, #fef3c7, #fde047, #fef3c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .detail-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #fbbf24;
+        }
+
+        .detail-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #fbbf24;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.25rem;
+            color: #fef3c7;
+            line-height: 1.6;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .agenda-bullet {
+            width: 6px;
+            height: 6px;
+            background: #fbbf24;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .invitation-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(to right, rgba(251, 191, 36, 0.1), rgba(234, 179, 8, 0.1), rgba(251, 191, 36, 0.1));
+            border-radius: 999px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .footer-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.125rem;
+            font-style: italic;
+            color: #fcd34d;
+        }
+
+        /* Achievement Preview - Light Theme */
+        .achievement-light {
+            background: #fffbeb;
+            padding: 3rem;
+            min-height: 700px;
+            position: relative;
+        }
+
+        .achievement-border {
+            position: absolute;
+            inset: 1.5rem;
+            border: 4px solid #d97706;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.2);
+        }
+
+        .achievement-border-inner {
+            position: absolute;
+            inset: 0.75rem;
+            border: 2px solid #fbbf24;
+        }
+
+        .achievement-corner {
+            position: absolute;
+            color: #f59e0b;
+        }
+
+        .icon-svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .achievement-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .achievement-logo {
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.4);
+            border: 4px solid #fcd34d;
+        }
+
+        .achievement-type-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #92400e;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .achievement-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #78350f;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-date {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.125rem;
+            color: #92400e;
+        }
+
+        .achiever-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .achiever-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #b45309;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .achiever-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #78350f;
+            border-bottom: 2px solid #fbbf24;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .achievement-description {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .achievement-for-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #b45309;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .achievement-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: #78350f;
+            font-weight: 600;
+        }
+
+        .details-box {
+            background: #fef3c7;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 2px solid #fcd34d;
+            margin-bottom: 2rem;
+        }
+
+        .details-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #92400e;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .details-list {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: #78350f;
+        }
+
+        .details-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .details-bullet {
+            width: 8px;
+            height: 8px;
+            background: #b45309;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .recognition-box {
+            background: linear-gradient(to right, #fffbeb, #fef3c7, #fffbeb);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #fcd34d;
+            margin-bottom: 2.5rem;
+        }
+
+        .recognition-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: #78350f;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .achievement-footer {
+            text-align: center;
+        }
+
+        .footer-logo-wrapper {
+            display: inline-block;
+        }
+
+        .footer-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.3);
+            border: 4px solid #fcd34d;
+        }
+
+        .footer-logo-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fffbeb;
+        }
+
+        .footer-family-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #92400e;
+        }
+
+        /* Icons */
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    
+    <div class="grain-overlay"></div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef } = React;
+
+        // SVG Icons as components
+        const Calendar = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
+                <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/>
+                <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/>
+                <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Clock = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" strokeWidth="2"/>
+                <polyline points="12 6 12 12 16 14" strokeWidth="2"/>
+            </svg>
+        );
+
+        const MapPin = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeWidth="2"/>
+                <circle cx="12" cy="10" r="3" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Users = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeWidth="2"/>
+                <circle cx="9" cy="7" r="4" strokeWidth="2"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeWidth="2"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Award = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="7" strokeWidth="2"/>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Star = ({ fill }) => (
+            <svg className="icon" fill={fill || "none"} stroke="currentColor" viewBox="0 0 24 24">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Trophy = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" strokeWidth="2"/>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" strokeWidth="2"/>
+                <path d="M4 22h16" strokeWidth="2"/>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" strokeWidth="2"/>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" strokeWidth="2"/>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Sparkles = () => (
+            <svg className="sparkle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" strokeWidth="2"/>
+            </svg>
+        );
+
+        const Download = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeWidth="2"/>
+                <polyline points="7 10 12 15 17 10" strokeWidth="2"/>
+                <line x1="12" y1="15" x2="12" y2="3" strokeWidth="2"/>
+            </svg>
+        );
+
+        const RotateCcw = () => (
+            <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="1 4 1 10 7 10" strokeWidth="2"/>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" strokeWidth="2"/>
+            </svg>
+        );
+
+        function App() {
+            const [templateType, setTemplateType] = useState('invitation');
+            const [isGenerating, setIsGenerating] = useState(false);
+            const [formData, setFormData] = useState({
+                // Invitation fields
+                subfamily: 'Wihogora',
+                title: 'Saturday Family Gathering',
+                date: '2026-02-08',
+                time: '10:00 AM',
+                location: 'Imena Family Home',
+                agenda: 'Prayer Session\nBreakfast Together\nFamily Discussion\nChildren Activities',
+                host: 'The Wihogora Sub-Family',
+                
+                // Achievement fields
+                achievementTitle: 'Academic Excellence',
+                achieverName: 'Jean-Paul Imena',
+                achievementDate: '2026-01-15',
+                achievement: 'Graduated with First Class Honors in Computer Science',
+                details: 'GPA: 3.9/4.0\nDean\'s List: All Semesters\nThesis: AI Applications in Healthcare',
+                recognition: 'We celebrate this outstanding achievement and the dedication it represents.'
+            });
+
+            const invitationRef = useRef(null);
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+
+            const handleReset = () => {
+                if (templateType === 'invitation') {
+                    setFormData(prev => ({
+                        ...prev,
+                        subfamily: 'Wihogora',
+                        title: 'Saturday Family Gathering',
+                        date: '2026-02-08',
+                        time: '10:00 AM',
+                        location: 'Imena Family Home',
+                        agenda: 'Prayer Session\nBreakfast Together\nFamily Discussion\nChildren Activities',
+                        host: 'The Wihogora Sub-Family'
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        achievementTitle: 'Academic Excellence',
+                        achieverName: 'Jean-Paul Imena',
+                        achievementDate: '2026-01-15',
+                        achievement: 'Graduated with First Class Honors in Computer Science',
+                        details: 'GPA: 3.9/4.0\nDean\'s List: All Semesters\nThesis: AI Applications in Healthcare',
+                        recognition: 'We celebrate this outstanding achievement and the dedication it represents.'
+                    }));
+                }
+            };
+
+            const handleDownloadPDF = async () => {
+                setIsGenerating(true);
+                try {
+                    const element = invitationRef.current;
+                    
+                    // Use html2canvas to capture the invitation
+                    const canvas = await html2canvas(element, {
+                        scale: 2,
+                        backgroundColor: templateType === 'invitation' ? '#020617' : '#fffbeb',
+                        logging: false,
+                        useCORS: true
+                    });
+
+                    // Create PDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    const imgWidth = 210; // A4 width in mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+                    // Save the PDF
+                    const fileName = `Imena_${templateType === 'invitation' ? 'Invitation' : 'Achievement'}_${formData.date}.pdf`;
+                    pdf.save(fileName);
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                } finally {
+                    setIsGenerating(false);
+                }
+            };
+
+            return (
+                <div className="app-container">
+                    {/* Header */}
+                    <header className="hero-header">
+                        <div className="logo-wrapper">
+                            <div className="logo-glow">
+                                <div className="glow-effect"></div>
+                            </div>
+                            <div className="logo-circle">
+                                <span className="logo-text">I</span>
+                                <div className="ping-dot"></div>
+                                <div className="accent-dot-1"></div>
+                            </div>
+                        </div>
+                        
+                        <h1 className="main-title">IMENA PAPER POP</h1>
+                        
+                        <div className="subtitle-wrapper">
+                            <div className="divider-line"></div>
+                            <Sparkles />
+                            <p className="subtitle">Luxury Invitation Suite</p>
+                            <Sparkles />
+                            <div className="divider-line" style={{ background: 'linear-gradient(to left, transparent, #fbbf24)' }}></div>
+                        </div>
+                        
+                        <p className="description">
+                            Craft extraordinary invitations and certificates with sophisticated design. 
+                            Every detail meticulously refined for the distinguished Imena family.
+                        </p>
+                    </header>
+
+                    {/* Template Selector */}
+                    <div className="template-selector">
+                        <button
+                            onClick={() => setTemplateType('invitation')}
+                            className={`template-btn ${templateType === 'invitation' ? 'active' : 'inactive'}`}
+                        >
+                            <Calendar />
+                            Dark Invitation
+                        </button>
+                        
+                        <button
+                            onClick={() => setTemplateType('achievement')}
+                            className={`template-btn ${templateType === 'achievement' ? 'active' : 'inactive'}`}
+                        >
+                            <Trophy />
+                            Achievement
+                        </button>
+                    </div>
+
+                    <div className="content-grid">
+                        {/* Form Section */}
+                        <div className="form-card">
+                            <h2 className="form-title">
+                                {templateType === 'invitation' ? 'Event Details' : 'Achievement Details'}
+                            </h2>
+
+                            {templateType === 'invitation' ? (
+                                <InvitationForm formData={formData} handleInputChange={handleInputChange} />
+                            ) : (
+                                <AchievementForm formData={formData} handleInputChange={handleInputChange} />
+                            )}
+
+                            <div className="button-group">
+                                <button
+                                    onClick={handleDownloadPDF}
+                                    className="btn btn-primary"
+                                    disabled={isGenerating}
+                                >
+                                    <Download />
+                                    {isGenerating ? 'GENERATING...' : 'DOWNLOAD PDF'}
+                                </button>
+                                
+                                <button
+                                    onClick={handleReset}
+                                    className="btn btn-secondary"
+                                >
+                                    <RotateCcw />
+                                    RESET
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Preview Section */}
+                        <div className="preview-card">
+                            <h3 className="preview-title">Live Preview</h3>
+                            
+                            <div className="preview-container">
+                                <div ref={invitationRef}>
+                                    {templateType === 'invitation' ? (
+                                        <InvitationPreview formData={formData} />
+                                    ) : (
+                                        <AchievementPreview formData={formData} />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function InvitationForm({ formData, handleInputChange }) {
+            return (
+                <>
+                    <div className="form-group">
+                        <label className="form-label"><Users /> Sub-Family</label>
+                        <select
+                            name="subfamily"
+                            value={formData.subfamily}
+                            onChange={handleInputChange}
+                            className="form-select"
+                        >
+                            <option value="Wihogora">Wihogora</option>
+                            <option value="Hope">Hope</option>
+                            <option value="Light">Light</option>
+                            <option value="Imena Family">Imena Family</option>
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label"><Star /> Event Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="e.g., Saturday Family Gathering"
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label className="form-label"><Calendar /> Date</label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={formData.date}
+                                onChange={handleInputChange}
+                                className="form-input"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label"><Clock /> Time</label>
+                            <input
+                                type="text"
+                                name="time"
+                                value={formData.time}
+                                onChange={handleInputChange}
+                                className="form-input"
+                                placeholder="10:00 AM"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label"><MapPin /> Location</label>
+                        <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="Imena Family Home"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Agenda</label>
+                        <textarea
+                            name="agenda"
+                            value={formData.agenda}
+                            onChange={handleInputChange}
+                            className="form-textarea"
+                            placeholder="Enter agenda items (one per line)"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Hosted By</label>
+                        <input
+                            type="text"
+                            name="host"
+                            value={formData.host}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="The Wihogora Sub-Family"
+                        />
+                    </div>
+                </>
+            );
+        }
+
+        function AchievementForm({ formData, handleInputChange }) {
+            return (
+                <>
+                    <div className="form-group">
+                        <label className="form-label"><Award /> Achievement Type</label>
+                        <input
+                            type="text"
+                            name="achievementTitle"
+                            value={formData.achievementTitle}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="Academic Excellence, Career Milestone"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label"><Users /> Achiever Name</label>
+                        <input
+                            type="text"
+                            name="achieverName"
+                            value={formData.achieverName}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="Full name of the achiever"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label"><Calendar /> Date</label>
+                        <input
+                            type="date"
+                            name="achievementDate"
+                            value={formData.achievementDate}
+                            onChange={handleInputChange}
+                            className="form-input"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label"><Trophy /> Achievement</label>
+                        <input
+                            type="text"
+                            name="achievement"
+                            value={formData.achievement}
+                            onChange={handleInputChange}
+                            className="form-input"
+                            placeholder="Brief description"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Details</label>
+                        <textarea
+                            name="details"
+                            value={formData.details}
+                            onChange={handleInputChange}
+                            className="form-textarea"
+                            placeholder="Additional details (one per line)"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Recognition Message</label>
+                        <textarea
+                            name="recognition"
+                            value={formData.recognition}
+                            onChange={handleInputChange}
+                            className="form-textarea"
+                            placeholder="Message of celebration"
+                            style={{ minHeight: '100px' }}
+                        />
+                    </div>
+                </>
+            );
+        }
+
+        function InvitationPreview({ formData }) {
+            return (
+                <div className="invitation-dark">
+                    <div className="invitation-border">
+                        <div className="invitation-border-inner"></div>
+                    </div>
+                    
+                    <div className="corner-ornament corner-tl"></div>
+                    <div className="corner-ornament corner-tr"></div>
+                    <div className="corner-ornament corner-bl"></div>
+                    <div className="corner-ornament corner-br"></div>
+                    
+                    <div className="diamond-ornament diamond-top">◆</div>
+                    <div className="diamond-ornament diamond-bottom">◆</div>
+                    
+                    <div className="invitation-content">
+                        <div className="invitation-header">
+                            <div className="invitation-logo">
+                                <span className="invitation-logo-text">I</span>
+                                <div className="invitation-logo-ping"></div>
+                            </div>
+                            
+                            <div className="invitation-subfamily">{formData.subfamily}</div>
+                            
+                            <div className="invitation-label-wrapper">
+                                <div className="label-line label-line-left"></div>
+                                <span className="invitation-label">You Are Cordially Invited</span>
+                                <div className="label-line label-line-right"></div>
+                            </div>
+                            
+                            <h2 className="invitation-title">{formData.title}</h2>
+                        </div>
+
+                        <div className="detail-section">
+                            <div className="detail-icon"><Calendar /></div>
+                            <div className="detail-label">Date</div>
+                            <div className="detail-value">
+                                {new Date(formData.date + 'T00:00:00').toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="detail-section">
+                            <div className="detail-icon"><Clock /></div>
+                            <div className="detail-label">Time</div>
+                            <div className="detail-value">{formData.time}</div>
+                        </div>
+
+                        <div className="detail-section">
+                            <div className="detail-icon"><MapPin /></div>
+                            <div className="detail-label">Location</div>
+                            <div className="detail-value">{formData.location}</div>
+                        </div>
+
+                        <div className="detail-section" style={{ paddingLeft: 0 }}>
+                            <div className="detail-label">Agenda</div>
+                            <div className="detail-value">
+                                {formData.agenda.split('\n').map((item, index) => (
+                                    item.trim() && (
+                                        <div key={index} className="agenda-item">
+                                            <div className="agenda-bullet"></div>
+                                            <span>{item}</span>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="invitation-footer">
+                            <div className="footer-badge">
+                                <Sparkles />
+                                <span className="footer-text">Hosted by {formData.host}</span>
+                                <Sparkles />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function AchievementPreview({ formData }) {
+            return (
+                <div className="achievement-light">
+                    <div className="achievement-border">
+                        <div className="achievement-border-inner"></div>
+                    </div>
+                    
+                    <div className="achievement-corner" style={{ top: '2rem', left: '2rem' }}>
+                        <Star fill="currentColor" />
+                    </div>
+                    <div className="achievement-corner" style={{ top: '2rem', right: '2rem' }}>
+                        <Star fill="currentColor" />
+                    </div>
+                    <div className="achievement-corner" style={{ bottom: '2rem', left: '2rem' }}>
+                        <Trophy />
+                    </div>
+                    <div className="achievement-corner" style={{ bottom: '2rem', right: '2rem' }}>
+                        <Trophy />
+                    </div>
+                    
+                    <div className="invitation-content">
+                        <div className="achievement-header">
+                            <div className="achievement-logo">
+                                <Trophy />
+                            </div>
+                            
+                            <div className="achievement-type-label">Certificate of</div>
+                            <h2 className="achievement-title">{formData.achievementTitle}</h2>
+                            <div className="achievement-date">
+                                {new Date(formData.achievementDate + 'T00:00:00').toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="achiever-section">
+                            <div className="achiever-label">Proudly Presented to</div>
+                            <div className="achiever-name">{formData.achieverName}</div>
+                        </div>
+
+                        <div className="achievement-description">
+                            <div className="achievement-for-label">For Outstanding Achievement In</div>
+                            <div className="achievement-text">{formData.achievement}</div>
+                        </div>
+
+                        <div className="details-box">
+                            <div className="details-title">Notable Accomplishments</div>
+                            <div className="details-list">
+                                {formData.details.split('\n').map((item, index) => (
+                                    item.trim() && (
+                                        <div key={index} className="details-item">
+                                            <div className="details-bullet"></div>
+                                            <span>{item}</span>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="recognition-box">
+                            <p className="recognition-text">"{formData.recognition}"</p>
+                        </div>
+
+                        <div className="achievement-footer">
+                            <div className="footer-logo-wrapper">
+                                <div className="footer-logo">
+                                    <span className="footer-logo-text">I</span>
+                                </div>
+                                <div className="footer-family-name">IMENA FAMILY</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
