@@ -16,305 +16,8 @@
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="index.css">
     
-    <style>
-        /* Custom Fonts */
-        .font-cinzel {
-            font-family: 'Cinzel', serif;
-        }
-        
-        .font-playfair {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .font-serif {
-            font-family: 'Source Serif Pro', serif;
-        }
-        
-        /* Color Scheme - Blue and White */
-        :root {
-            --primary-blue: #3b82f6;
-            --dark-blue: #1e40af;
-            --light-blue: #60a5fa;
-            --sky-blue: #0ea5e9;
-            --white: #ffffff;
-        }
-        
-        /* Page Loader */
-        .page-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
-        
-        .page-loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 6px solid rgba(59, 130, 246, 0.1);
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #0ea5e9);
-            z-index: 9998;
-            transition: width 0.2s ease;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-        
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: -400px;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            border-left: 4px solid #3b82f6;
-            border-radius: 12px;
-            padding: 20px 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 9997;
-            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            max-width: 400px;
-        }
-        
-        .toast.show {
-            right: 30px;
-        }
-        
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Glow Effects */
-        .glow {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
-        }
-        
-        .glow-text {
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-        
-        /* Navbar */
-        .navbar {
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
-            color: white;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-primary:hover {
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        /* Glass Effect */
-        .glass {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-        }
-        
-        /* Cards */
-        .feature-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(51, 65, 85, 0.4) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .template-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(51, 65, 85, 0.5) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .testimonial-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(51, 65, 85, 0.4) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-        }
-        
-        /* Hero Section */
-        .hero-overlay {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
-        }
-        
-        .hero-title {
-            line-height: 1.1;
-        }
-        
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.05);
-            }
-        }
-        
-        .pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        @keyframes float-animation {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(-10px) translateX(-10px);
-            }
-            75% {
-                transform: translateY(-25px) translateX(5px);
-            }
-        }
-        
-        .float-animation {
-            animation: float-animation 6s ease-in-out infinite;
-        }
-        
-        /* Hover Underline Effect */
-        .hover-underline {
-            position: relative;
-        }
-        
-        .hover-underline::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #3b82f6, #0ea5e9);
-            transition: width 0.3s ease;
-        }
-        
-        .hover-underline:hover::after {
-            width: 100%;
-        }
-        
-        /* Section Transitions */
-        .section-transition {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .section-transition.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Stats Counter */
-        .stat-number {
-            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Grid Pattern */
-        .grid-pattern {
-            background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-        
-        /* Shine Effect */
-        .shine-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .shine-effect::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .shine-effect:hover::before {
-            left: 100%;
-        }
-        
-        /* Fade In */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-        
-        /* Scroll Indicator */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        /* Responsive Typography */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
     
 </head>
 <body class="relative">
@@ -324,11 +27,11 @@
             <div class="spinner mb-6"></div>
             <div class="text-center">
                 <div class="flex items-center justify-center mb-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center mr-4 glow">
-                        <span class="font-cinzel text-3xl font-bold text-white">I</span>
+                    <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center mr-4 glow">
+                        <span class="font-cinzel text-3xl font-bold text-slate-900">I</span>
                     </div>
                 </div>
-                <p class="text-blue-400 font-semibold text-lg">Loading Luxury Design Suite</p>
+                <p class="text-amber-400 font-semibold text-lg">Loading Luxury Design Suite</p>
                 <p class="text-slate-400 text-sm mt-2">Preparing your premium experience...</p>
             </div>
         </div>
@@ -341,7 +44,7 @@
     <div class="toast" id="toast">
         <div class="flex items-start">
             <div class="flex-shrink-0">
-                <i class="fas fa-check-circle text-2xl text-blue-500"></i>
+                <i class="fas fa-check-circle text-2xl text-amber-500"></i>
             </div>
             <div class="ml-4">
                 <p class="font-semibold text-white" id="toast-title">Success!</p>
@@ -360,9 +63,9 @@
                 <!-- Logo -->
                 <a href="#home" class="flex items-center group">
                     <div class="relative">
-                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center mr-4 glow group-hover:scale-110 transition-transform duration-300">
-                            <span class="font-cinzel text-2xl font-bold text-white">I</span>
-                            <div class="absolute -top-1 -right-1 w-5 h-5 bg-blue-400 rounded-full pulse"></div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center mr-4 glow group-hover:scale-110 transition-transform duration-300">
+                            <span class="font-cinzel text-2xl font-bold text-slate-900">I</span>
+                            <div class="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full pulse"></div>
                         </div>
                     </div>
                     <div>
@@ -373,26 +76,26 @@
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex items-center space-x-10">
-                    <a href="#home" class="text-slate-300 hover:text-blue-400 font-medium hover-underline transition-colors duration-300">
+                    <a href="#home" class="text-slate-300 hover:text-amber-400 font-medium hover-underline transition-colors duration-300">
                         Home
                     </a>
-                    <a href="#features" class="text-slate-300 hover:text-blue-400 font-medium hover-underline transition-colors duration-300">
+                    <a href="#features" class="text-slate-300 hover:text-amber-400 font-medium hover-underline transition-colors duration-300">
                         Features
                     </a>
-                    <a href="#templates" class="text-slate-300 hover:text-blue-400 font-medium hover-underline transition-colors duration-300">
+                    <a href="#templates" class="text-slate-300 hover:text-amber-400 font-medium hover-underline transition-colors duration-300">
                         Templates
                     </a>
-                    <a href="#testimonials" class="text-slate-300 hover:text-blue-400 font-medium hover-underline transition-colors duration-300">
+                    <a href="#testimonials" class="text-slate-300 hover:text-amber-400 font-medium hover-underline transition-colors duration-300">
                         Testimonials
                     </a>
-                    <a href="Family.html" class="btn-primary font-bold py-3 px-8 rounded-full transition-all duration-300">
+                    <a href="Family.html" class="btn-primary text-slate-900 font-bold py-3 px-8 rounded-full transition-all duration-300">
                         <i class="fas fa-wand-magic-sparkles mr-2"></i>
                         Start Creating
                     </a>
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="lg:hidden text-2xl text-blue-500 hover:text-blue-400 transition-colors">
+                <button id="mobileMenuBtn" class="lg:hidden text-2xl text-amber-500 hover:text-amber-400 transition-colors">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -400,19 +103,19 @@
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="lg:hidden mt-6 pt-6 border-t border-slate-800 hidden">
                 <div class="flex flex-col space-y-5">
-                    <a href="#home" class="text-slate-300 hover:text-blue-400 font-medium py-2 hover-underline transition-colors duration-300">
+                    <a href="#home" class="text-slate-300 hover:text-amber-400 font-medium py-2 hover-underline transition-colors duration-300">
                         <i class="fas fa-home mr-3"></i> Home
                     </a>
-                    <a href="#features" class="text-slate-300 hover:text-blue-400 font-medium py-2 hover-underline transition-colors duration-300">
+                    <a href="#features" class="text-slate-300 hover:text-amber-400 font-medium py-2 hover-underline transition-colors duration-300">
                         <i class="fas fa-star mr-3"></i> Features
                     </a>
-                    <a href="#templates" class="text-slate-300 hover:text-blue-400 font-medium py-2 hover-underline transition-colors duration-300">
+                    <a href="#templates" class="text-slate-300 hover:text-amber-400 font-medium py-2 hover-underline transition-colors duration-300">
                         <i class="fas fa-palette mr-3"></i> Templates
                     </a>
-                    <a href="#testimonials" class="text-slate-300 hover:text-blue-400 font-medium py-2 hover-underline transition-colors duration-300">
+                    <a href="#testimonials" class="text-slate-300 hover:text-amber-400 font-medium py-2 hover-underline transition-colors duration-300">
                         <i class="fas fa-comments mr-3"></i> Testimonials
                     </a>
-                    <a href="Family.html" class="btn-primary font-bold py-3 px-6 rounded-full text-center mt-4 transition-all duration-300">
+                    <a href="Family.html" class="btn-primary text-slate-900 font-bold py-3 px-6 rounded-full text-center mt-4 transition-all duration-300">
                         <i class="fas fa-wand-magic-sparkles mr-2"></i>
                         Start Creating
                     </a>
@@ -430,17 +133,17 @@
         <div class="hero-overlay absolute inset-0"></div>
         
         <!-- Animated Elements -->
-        <div class="absolute top-20 left-10 w-6 h-6 bg-blue-500 rounded-full opacity-20 float-animation" style="animation-delay: 0s;"></div>
-        <div class="absolute top-40 right-20 w-10 h-10 bg-blue-400 rounded-full opacity-10 float-animation" style="animation-delay: 1s;"></div>
-        <div class="absolute bottom-40 left-20 w-8 h-8 bg-sky-500 rounded-full opacity-15 float-animation" style="animation-delay: 2s;"></div>
+        <div class="absolute top-20 left-10 w-6 h-6 bg-amber-500 rounded-full opacity-20 float-animation" style="animation-delay: 0s;"></div>
+        <div class="absolute top-40 right-20 w-10 h-10 bg-amber-400 rounded-full opacity-10 float-animation" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-40 left-20 w-8 h-8 bg-amber-600 rounded-full opacity-15 float-animation" style="animation-delay: 2s;"></div>
         
         <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center fade-in">
                     <!-- Hero Badge -->
-                    <div class="inline-flex items-center bg-slate-900/60 backdrop-blur-sm border border-blue-500/30 rounded-full px-6 py-3 mb-10">
-                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
-                        <span class="text-blue-400 font-medium">Premium Design Suite v2.0</span>
+                    <div class="inline-flex items-center bg-slate-900/60 backdrop-blur-sm border border-amber-500/30 rounded-full px-6 py-3 mb-10">
+                        <div class="w-3 h-3 bg-amber-500 rounded-full mr-3 animate-pulse"></div>
+                        <span class="text-amber-400 font-medium">Premium Design Suite v2.0</span>
                     </div>
                     
                     <!-- Main Title -->
@@ -457,14 +160,14 @@
                     
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
-                        <a href="Family.html" class="btn-primary font-bold py-4 px-12 rounded-full text-lg transition-all duration-300 group">
+                        <a href="Family.html" class="btn-primary text-slate-900 font-bold py-4 px-12 rounded-full text-lg transition-all duration-300 group">
                             <div class="flex items-center">
                                 <i class="fas fa-wand-magic-sparkles mr-3 group-hover:rotate-12 transition-transform"></i>
                                 Start Creating Now
                                 <i class="fas fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i>
                             </div>
                         </a>
-                        <a href="#templates" class="glass border border-slate-700 hover:border-blue-500/50 text-white font-bold py-4 px-12 rounded-full text-lg transition-all duration-300 group">
+                        <a href="#templates" class="glass border border-slate-700 hover:border-amber-500/50 text-white font-bold py-4 px-12 rounded-full text-lg transition-all duration-300 group">
                             <div class="flex items-center">
                                 <i class="fas fa-eye mr-3"></i>
                                 Explore Templates
@@ -497,10 +200,10 @@
         
         <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-            <a href="#features" class="flex flex-col items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <a href="#features" class="flex flex-col items-center text-amber-400 hover:text-amber-300 transition-colors">
                 <span class="text-sm mb-2">Explore More</span>
-                <div class="w-6 h-10 border-2 border-blue-500/50 rounded-full flex justify-center">
-                    <div class="w-1 h-3 bg-blue-500 rounded-full mt-2 animate-bounce"></div>
+                <div class="w-6 h-10 border-2 border-amber-500/50 rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-amber-500 rounded-full mt-2 animate-bounce"></div>
                 </div>
             </a>
         </div>
@@ -512,7 +215,7 @@
             <div class="text-center mb-20 section-transition">
                 <!-- Section Badge -->
                 <div class="inline-block mb-6">
-                    <span class="text-blue-500 font-semibold tracking-widest text-sm uppercase">Why Choose Us</span>
+                    <span class="text-amber-500 font-semibold tracking-widest text-sm uppercase">Why Choose Us</span>
                 </div>
                 
                 <!-- Section Title -->
@@ -531,16 +234,16 @@
                 <!-- Feature 1 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.1s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-bolt text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-bolt text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Real-Time Preview</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Watch your design evolve instantly with our live preview. Every change is reflected immediately for perfect precision.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">Instant visual feedback</span>
                     </div>
@@ -549,16 +252,16 @@
                 <!-- Feature 2 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.2s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-file-pdf text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-file-pdf text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Print-Ready PDFs</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Export high-resolution, print-ready PDFs with professional quality that rivals expensive design services.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">300 DPI export quality</span>
                     </div>
@@ -567,16 +270,16 @@
                 <!-- Feature 3 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.3s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-palette text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-palette text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Luxury Templates</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Choose from professionally designed templates that blend modern aesthetics with timeless elegance.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">Premium design collection</span>
                     </div>
@@ -585,16 +288,16 @@
                 <!-- Feature 4 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.4s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-magic text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-magic text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Intuitive Editor</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Our user-friendly interface makes customization effortless, even for those without design experience.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">No learning curve</span>
                     </div>
@@ -603,16 +306,16 @@
                 <!-- Feature 5 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.5s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-share-alt text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-share-alt text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Easy Sharing</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Share your designs instantly or download for printing. Perfect for both digital and physical distribution.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">Multiple export options</span>
                     </div>
@@ -621,16 +324,16 @@
                 <!-- Feature 6 -->
                 <div class="feature-card rounded-2xl p-8 card-hover section-transition" style="animation-delay: 0.6s;">
                     <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mb-6">
-                            <i class="fas fa-lock text-3xl text-white"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-lock text-3xl text-slate-900"></i>
                         </div>
-                        <div class="absolute top-0 right-0 w-12 h-12 bg-blue-500/10 rounded-full"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 bg-amber-500/10 rounded-full"></div>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel">Complete Privacy</h3>
                     <p class="text-slate-300 mb-6 leading-relaxed">
                         Your data never leaves your browser. No accounts, no servers, no privacy concerns. Your designs stay yours.
                     </p>
-                    <div class="flex items-center text-blue-500">
+                    <div class="flex items-center text-amber-500">
                         <i class="fas fa-circle-check mr-3"></i>
                         <span class="font-medium">100% client-side processing</span>
                     </div>
@@ -639,7 +342,7 @@
             
             <!-- Feature CTA -->
             <div class="text-center mt-16 section-transition">
-                <a href="Family.html" class="inline-flex items-center glass border border-slate-700 hover:border-blue-500/50 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 group">
+                <a href="Family.html" class="inline-flex items-center glass border border-slate-700 hover:border-amber-500/50 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 group">
                     <i class="fas fa-rocket mr-3 group-hover:rotate-45 transition-transform"></i>
                     Experience All Features
                 </a>
@@ -658,7 +361,7 @@
             <div class="text-center mb-20 section-transition">
                 <!-- Section Badge -->
                 <div class="inline-block mb-6">
-                    <span class="text-blue-500 font-semibold tracking-widest text-sm uppercase">Our Collection</span>
+                    <span class="text-amber-500 font-semibold tracking-widest text-sm uppercase">Our Collection</span>
                 </div>
                 
                 <!-- Section Title -->
@@ -678,11 +381,11 @@
                 <div class="template-card rounded-3xl p-8 card-hover shine-effect section-transition" style="animation-delay: 0.1s;">
                     <!-- Template Badge -->
                     <div class="flex justify-between items-start mb-8">
-                        <div class="inline-flex items-center bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2">
-                            <i class="fas fa-fire text-blue-500 mr-2"></i>
-                            <span class="text-blue-400 font-medium text-sm">Most Popular</span>
+                        <div class="inline-flex items-center bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-2">
+                            <i class="fas fa-fire text-amber-500 mr-2"></i>
+                            <span class="text-amber-400 font-medium text-sm">Most Popular</span>
                         </div>
-                        <div class="text-blue-500">
+                        <div class="text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -692,40 +395,40 @@
                     </div>
                     
                     <!-- Template Icon -->
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
-                        <i class="fas fa-envelope-open-text text-4xl text-white"></i>
+                    <div class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
+                        <i class="fas fa-envelope-open-text text-4xl text-slate-900"></i>
                     </div>
                     
                     <!-- Template Info -->
                     <h3 class="text-2xl font-bold mb-4 text-white font-cinzel text-center">Classic Invitation</h3>
                     <p class="text-slate-300 mb-8 text-center leading-relaxed">
-                        Elegant dark theme with blue accents, perfect for formal family gatherings, reunions, and special events.
+                        Elegant dark theme with golden accents, perfect for formal family gatherings, reunions, and special events.
                     </p>
                     
                     <!-- Template Features -->
                     <div class="space-y-4 mb-10">
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Elegant dark theme</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
-                            <span class="text-slate-300">Blue accent details</span>
+                            <span class="text-slate-300">Golden accent details</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Agenda section included</span>
                         </div>
                     </div>
                     
                     <!-- Template CTA -->
-                    <button onclick="scrollToGenerator('invitation')" class="w-full btn-primary font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
+                    <button onclick="scrollToGenerator('invitation')" class="w-full btn-primary text-slate-900 font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
                         <div class="flex items-center justify-center">
                             <i class="fas fa-wand-magic-sparkles mr-3 group-hover:rotate-90 transition-transform"></i>
                             Use This Template
@@ -738,11 +441,11 @@
                 <div class="template-card rounded-3xl p-8 card-hover shine-effect section-transition" style="animation-delay: 0.2s;">
                     <!-- Template Badge -->
                     <div class="flex justify-between items-start mb-8">
-                        <div class="inline-flex items-center bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2">
-                            <i class="fas fa-trophy text-blue-500 mr-2"></i>
-                            <span class="text-blue-400 font-medium text-sm">Prestigious</span>
+                        <div class="inline-flex items-center bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-2">
+                            <i class="fas fa-trophy text-amber-500 mr-2"></i>
+                            <span class="text-amber-400 font-medium text-sm">Prestigious</span>
                         </div>
-                        <div class="text-blue-500">
+                        <div class="text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -752,8 +455,8 @@
                     </div>
                     
                     <!-- Template Icon -->
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
-                        <i class="fas fa-award text-4xl text-white"></i>
+                    <div class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
+                        <i class="fas fa-award text-4xl text-slate-900"></i>
                     </div>
                     
                     <!-- Template Info -->
@@ -765,27 +468,27 @@
                     <!-- Template Features -->
                     <div class="space-y-4 mb-10">
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Prestigious light theme</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Achievement details section</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Custom recognition message</span>
                         </div>
                     </div>
                     
                     <!-- Template CTA -->
-                    <button onclick="scrollToGenerator('achievement')" class="w-full btn-primary font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
+                    <button onclick="scrollToGenerator('achievement')" class="w-full btn-primary text-slate-900 font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
                         <div class="flex items-center justify-center">
                             <i class="fas fa-wand-magic-sparkles mr-3 group-hover:rotate-90 transition-transform"></i>
                             Use This Template
@@ -798,11 +501,11 @@
                 <div class="template-card rounded-3xl p-8 card-hover shine-effect section-transition" style="animation-delay: 0.3s;">
                     <!-- Template Badge -->
                     <div class="flex justify-between items-start mb-8">
-                        <div class="inline-flex items-center bg-sky-500/10 border border-sky-500/30 rounded-full px-4 py-2">
-                            <i class="fas fa-sparkles text-sky-500 mr-2"></i>
-                            <span class="text-sky-400 font-medium text-sm">New Release</span>
+                        <div class="inline-flex items-center bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2">
+                            <i class="fas fa-sparkles text-blue-500 mr-2"></i>
+                            <span class="text-blue-400 font-medium text-sm">New Release</span>
                         </div>
-                        <div class="text-blue-500">
+                        <div class="text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -812,8 +515,8 @@
                     </div>
                     
                     <!-- Template Icon -->
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
-                        <i class="fas fa-bullhorn text-4xl text-white"></i>
+                    <div class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mx-auto mb-8 glow">
+                        <i class="fas fa-bullhorn text-4xl text-slate-900"></i>
                     </div>
                     
                     <!-- Template Info -->
@@ -825,27 +528,27 @@
                     <!-- Template Features -->
                     <div class="space-y-4 mb-10">
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Modern clean design</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Professional typography</span>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-check text-blue-500 text-sm"></i>
+                            <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-amber-500 text-sm"></i>
                             </div>
                             <span class="text-slate-300">Announcement-focused layout</span>
                         </div>
                     </div>
                     
                     <!-- Template CTA -->
-                    <button onclick="scrollToGenerator('announcement')" class="w-full btn-primary font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
+                    <button onclick="scrollToGenerator('announcement')" class="w-full btn-primary text-slate-900 font-bold py-4 px-6 rounded-xl transition-all duration-300 group">
                         <div class="flex items-center justify-center">
                             <i class="fas fa-wand-magic-sparkles mr-3 group-hover:rotate-90 transition-transform"></i>
                             Use This Template
@@ -863,7 +566,7 @@
                         Try them all! Each template offers unique features perfect for different occasions. 
                         You can switch between templates at any time without losing your work.
                     </p>
-                    <a href="Family.html" class="btn-primary font-bold py-3 px-8 rounded-full inline-flex items-center transition-all duration-300 group">
+                    <a href="Family.html" class="btn-primary text-slate-900 font-bold py-3 px-8 rounded-full inline-flex items-center transition-all duration-300 group">
                         <i class="fas fa-play-circle mr-3 text-xl"></i>
                         Start with Any Template
                     </a>
@@ -876,14 +579,14 @@
     <section id="testimonials" class="py-24 bg-gradient-to-b from-slate-900 to-slate-800 relative overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-5">
-            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.5) 1px, transparent 1px); background-size: 40px 40px;"></div>
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(251, 191, 36, 0.5) 1px, transparent 1px); background-size: 40px 40px;"></div>
         </div>
         
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-20 section-transition">
                 <!-- Section Badge -->
                 <div class="inline-block mb-6">
-                    <span class="text-blue-500 font-semibold tracking-widest text-sm uppercase">Family Voices</span>
+                    <span class="text-amber-500 font-semibold tracking-widest text-sm uppercase">Family Voices</span>
                 </div>
                 
                 <!-- Section Title -->
@@ -904,16 +607,16 @@
                     <!-- Testimonial Header -->
                     <div class="flex items-center mb-8">
                         <div class="relative">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center">
-                                <span class="font-cinzel text-xl font-bold text-white">J</span>
+                            <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center">
+                                <span class="font-cinzel text-xl font-bold text-slate-900">J</span>
                             </div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-quote-left text-xs text-white"></i>
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-xs text-slate-900"></i>
                             </div>
                         </div>
                         <div class="ml-6">
                             <h4 class="text-xl font-bold text-white">Nyumbayire Laurent</h4>
-                            <p class="text-blue-500 text-sm font-medium">Wihogora Sub-Family</p>
+                            <p class="text-amber-500 text-sm font-medium">Wihogora Sub-Family</p>
                         </div>
                     </div>
                     
@@ -925,7 +628,7 @@
                     
                     <!-- Testimonial Rating -->
                     <div class="flex items-center justify-between">
-                        <div class="flex text-blue-500">
+                        <div class="flex text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -941,16 +644,16 @@
                     <!-- Testimonial Header -->
                     <div class="flex items-center mb-8">
                         <div class="relative">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center">
-                                <span class="font-cinzel text-xl font-bold text-white">M</span>
+                            <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center">
+                                <span class="font-cinzel text-xl font-bold text-slate-900">M</span>
                             </div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-quote-left text-xs text-white"></i>
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-xs text-slate-900"></i>
                             </div>
                         </div>
                         <div class="ml-6">
                             <h4 class="text-xl font-bold text-white">Isheja</h4>
-                            <p class="text-blue-500 text-sm font-medium">Hope Sub-Family</p>
+                            <p class="text-amber-500 text-sm font-medium">Hope Sub-Family</p>
                         </div>
                     </div>
                     
@@ -962,7 +665,7 @@
                     
                     <!-- Testimonial Rating -->
                     <div class="flex items-center justify-between">
-                        <div class="flex text-blue-500">
+                        <div class="flex text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -978,16 +681,16 @@
                     <!-- Testimonial Header -->
                     <div class="flex items-center mb-8">
                         <div class="relative">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center">
-                                <span class="font-cinzel text-xl font-bold text-white">D</span>
+                            <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center">
+                                <span class="font-cinzel text-xl font-bold text-slate-900">D</span>
                             </div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-quote-left text-xs text-white"></i>
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-left text-xs text-slate-900"></i>
                             </div>
                         </div>
                         <div class="ml-6">
-                            <h4 class="text-xl font-bold text-white">Ruvunababisha</h4>
-                            <p class="text-blue-500 text-sm font-medium">Family Council Member</p>
+                            <h4 class="text-xl font-bold text-white">Cyangabwoba</h4>
+                            <p class="text-amber-500 text-sm font-medium">Family Council Member</p>
                         </div>
                     </div>
                     
@@ -1000,7 +703,7 @@
                     
                     <!-- Testimonial Rating -->
                     <div class="flex items-center justify-between">
-                        <div class="flex text-blue-500">
+                        <div class="flex text-amber-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -1019,7 +722,7 @@
                     <p class="text-slate-300 mb-8 max-w-2xl mx-auto">
                         Join hundreds of Imena family members who have transformed their events and celebrations with our luxury design suite.
                     </p>
-                    <a href="Family.html" class="btn-primary font-bold py-4 px-12 rounded-full text-lg inline-flex items-center transition-all duration-300 group">
+                    <a href="Family.html" class="btn-primary text-slate-900 font-bold py-4 px-12 rounded-full text-lg inline-flex items-center transition-all duration-300 group">
                         <i class="fas fa-gem mr-3"></i>
                         Start Your Luxury Experience
                         <i class="fas fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i>
@@ -1031,6 +734,10 @@
     
     <!-- Document Generator Section -->
     <section id="generator" class="py-24 bg-gradient-to-b from-slate-900 to-slate-800">
+        <!-- [The document generator content from the original code would go here] -->
+        <!-- Due to length constraints, I've focused on the landing page. -->
+        <!-- The full generator would be inserted at this point. -->
+        
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="font-cinzel text-4xl md:text-5xl font-bold mb-8">
@@ -1043,15 +750,15 @@
             
             <div class="text-center">
                 <div class="glass border border-slate-700 rounded-3xl p-12 max-w-2xl mx-auto">
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-8">
-                        <i class="fas fa-wand-magic-sparkles text-3xl text-white"></i>
+                    <div class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                        <i class="fas fa-wand-magic-sparkles text-3xl text-slate-900"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-6 text-white font-cinzel">Full Generator Coming Soon</h3>
                     <p class="text-slate-300 mb-8">
                         The complete document generator with live preview, template selection, and PDF export functionality 
                         would be implemented here. This is where you would create your stunning family documents.
                     </p>
-                    <a href="#home" class="btn-primary font-bold py-3 px-8 rounded-full inline-flex items-center transition-all duration-300">
+                    <a href="#home" class="btn-primary text-slate-900 font-bold py-3 px-8 rounded-full inline-flex items-center transition-all duration-300">
                         <i class="fas fa-arrow-up mr-3"></i>
                         Back to Top
                     </a>
@@ -1067,8 +774,8 @@
                 <!-- Logo and Description -->
                 <div>
                     <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center mr-4">
-                            <span class="font-cinzel text-xl font-bold text-white">I</span>
+                        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center mr-4">
+                            <span class="font-cinzel text-xl font-bold text-slate-900">I</span>
                         </div>
                         <div>
                             <h3 class="font-cinzel text-xl font-bold gradient-text">Imena Paper Pop</h3>
@@ -1080,17 +787,17 @@
                         Craft exquisite documents with elegance and efficiency.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-blue-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-blue-500 transition-all duration-300">
-                            <i class="fab fa-twitter text-slate-400 hover:text-white"></i>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-amber-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-amber-500 transition-all duration-300">
+                            <i class="fab fa-twitter text-slate-400 hover:text-slate-900"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-blue-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-blue-500 transition-all duration-300">
-                            <i class="fab fa-facebook-f text-slate-400 hover:text-white"></i>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-amber-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-amber-500 transition-all duration-300">
+                            <i class="fab fa-facebook-f text-slate-400 hover:text-slate-900"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-blue-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-blue-500 transition-all duration-300">
-                            <i class="fab fa-instagram text-slate-400 hover:text-white"></i>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-amber-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-amber-500 transition-all duration-300">
+                            <i class="fab fa-instagram text-slate-400 hover:text-slate-900"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-blue-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-blue-500 transition-all duration-300">
-                            <i class="fab fa-linkedin-in text-slate-400 hover:text-white"></i>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-amber-500 rounded-full flex items-center justify-center border border-slate-700 hover:border-amber-500 transition-all duration-300">
+                            <i class="fab fa-linkedin-in text-slate-400 hover:text-slate-900"></i>
                         </a>
                     </div>
                 </div>
@@ -1099,11 +806,11 @@
                 <div>
                     <h4 class="text-xl font-bold text-white mb-6 font-cinzel">Quick Links</h4>
                     <ul class="space-y-4">
-                        <li><a href="#home" class="text-slate-400 hover:text-blue-400 transition-colors">Home</a></li>
-                        <li><a href="#features" class="text-slate-400 hover:text-blue-400 transition-colors">Features</a></li>
-                        <li><a href="#templates" class="text-slate-400 hover:text-blue-400 transition-colors">Templates</a></li>
-                        <li><a href="#testimonials" class="text-slate-400 hover:text-blue-400 transition-colors">Testimonials</a></li>
-                        <li><a href="Family.html" class="text-slate-400 hover:text-blue-400 transition-colors">Generator</a></li>
+                        <li><a href="#home" class="text-slate-400 hover:text-amber-400 transition-colors">Home</a></li>
+                        <li><a href="#features" class="text-slate-400 hover:text-amber-400 transition-colors">Features</a></li>
+                        <li><a href="#templates" class="text-slate-400 hover:text-amber-400 transition-colors">Templates</a></li>
+                        <li><a href="#testimonials" class="text-slate-400 hover:text-amber-400 transition-colors">Testimonials</a></li>
+                        <li><a href="Family.html" class="text-slate-400 hover:text-amber-400 transition-colors">Generator</a></li>
                     </ul>
                 </div>
                 
@@ -1111,10 +818,10 @@
                 <div>
                     <h4 class="text-xl font-bold text-white mb-6 font-cinzel">Templates</h4>
                     <ul class="space-y-4">
-                        <li><a href="#templates" class="text-slate-400 hover:text-blue-400 transition-colors">Classic Invitation</a></li>
-                        <li><a href="#templates" class="text-slate-400 hover:text-blue-400 transition-colors">Achievement Certificate</a></li>
-                        <li><a href="#templates" class="text-slate-400 hover:text-blue-400 transition-colors">Modern Announcement</a></li>
-                        <li><a href="#templates" class="text-slate-400 hover:text-blue-400 transition-colors">More Coming Soon</a></li>
+                        <li><a href="#templates" class="text-slate-400 hover:text-amber-400 transition-colors">Classic Invitation</a></li>
+                        <li><a href="#templates" class="text-slate-400 hover:text-amber-400 transition-colors">Achievement Certificate</a></li>
+                        <li><a href="#templates" class="text-slate-400 hover:text-amber-400 transition-colors">Modern Announcement</a></li>
+                        <li><a href="#templates" class="text-slate-400 hover:text-amber-400 transition-colors">More Coming Soon</a></li>
                     </ul>
                 </div>
                 
@@ -1123,15 +830,15 @@
                     <h4 class="text-xl font-bold text-white mb-6 font-cinzel">Contact</h4>
                     <ul class="space-y-4">
                         <li class="flex items-start">
-                            <i class="fas fa-envelope text-blue-500 mt-1 mr-3"></i>
+                            <i class="fas fa-envelope text-amber-500 mt-1 mr-3"></i>
                             <span class="text-slate-400">contact@imenapaperpop.com</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-phone text-blue-500 mt-1 mr-3"></i>
+                            <i class="fas fa-phone text-amber-500 mt-1 mr-3"></i>
                             <span class="text-slate-400">+1 (555) 123-4567</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-blue-500 mt-1 mr-3"></i>
+                            <i class="fas fa-map-marker-alt text-amber-500 mt-1 mr-3"></i>
                             <span class="text-slate-400">Imena Family Headquarters</span>
                         </li>
                     </ul>
@@ -1144,7 +851,7 @@
                     © 2026 Imena Paper Pop Luxury Design Suite. All rights reserved.
                 </p>
                 <p class="text-slate-500 text-sm">
-                    Crafted with <i class="fas fa-heart text-blue-500 mx-1"></i> for the Imena Family Legacy
+                    Crafted with <i class="fas fa-heart text-amber-500 mx-1"></i> for the Imena Family Legacy
                 </p>
             </div>
         </div>
@@ -1240,14 +947,14 @@
             toastMessage.textContent = message;
             
             if (type === 'success') {
-                toastIcon.className = 'fas fa-check-circle text-2xl text-blue-500';
-                toast.style.borderLeftColor = '#3b82f6';
+                toastIcon.className = 'fas fa-check-circle text-2xl text-amber-500';
+                toast.style.borderLeftColor = '#f59e0b';
             } else if (type === 'error') {
                 toastIcon.className = 'fas fa-exclamation-circle text-2xl text-red-500';
                 toast.style.borderLeftColor = '#ef4444';
             } else if (type === 'info') {
-                toastIcon.className = 'fas fa-info-circle text-2xl text-sky-500';
-                toast.style.borderLeftColor = '#0ea5e9';
+                toastIcon.className = 'fas fa-info-circle text-2xl text-blue-500';
+                toast.style.borderLeftColor = '#3b82f6';
             }
             
             toast.classList.add('show');
